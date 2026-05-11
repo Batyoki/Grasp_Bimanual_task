@@ -1,0 +1,44 @@
+# Fast training configuration - uses small parallel environments for quick iteration
+# Good for rapid prototyping and debugging
+
+env:
+  name: BimanualVX300s
+  num_envs: 2
+  max_episode_length: 500
+  device: cuda
+  render: false
+
+observation:
+  include_images: false
+  normalize_obs: true
+
+action:
+  action_type: joint_position
+  action_scale: 1.0
+  use_relative_actions: true
+
+reward:
+  reach_weight: 1.0
+  action_penalty_weight: 0.02
+  gripper_penalty_weight: 0.001
+  success_bonus: 10.0
+  success_threshold: 0.05
+
+training:
+  algorithm: ppo
+  total_timesteps: 100000  # Quick experiment
+  num_epochs: 5
+  batch_size: 128
+  learning_rate: 0.0003
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+
+experiment:
+  name: bimanual_fast_debug
+  log_dir: ./logs
+  model_dir: ./models
+  seed: 42
+  checkpoint_freq: 10000
+  eval_freq: 5000
+  eval_episodes: 2

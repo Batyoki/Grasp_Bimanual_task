@@ -1,0 +1,58 @@
+# Default configuration for bimanual VX300s RL training
+
+# Environment configuration
+env:
+  name: BimanualVX300s
+  num_envs: 4
+  max_episode_length: 1000
+  device: cuda  # or "cpu"
+  render: false
+  render_freq: 10
+
+# Observation settings
+observation:
+  include_images: false
+  image_size: [64, 64]
+  camera_names:
+    - cam_high
+    - cam_low
+    - cam_left_wrist
+  normalize_obs: true
+
+# Action settings
+action:
+  action_type: joint_position
+  action_scale: 1.0
+  use_relative_actions: true
+
+# Reward settings
+reward:
+  reach_weight: 1.0
+  action_penalty_weight: 0.01
+  gripper_penalty_weight: 0.001
+  success_bonus: 10.0
+  success_threshold: 0.05
+
+# PPO training configuration
+training:
+  algorithm: ppo
+  total_timesteps: 1000000
+  num_epochs: 10
+  batch_size: 256
+  learning_rate: 0.0003
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.0
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+
+# Experiment settings
+experiment:
+  name: bimanual_vx300s_v1
+  log_dir: ./logs
+  model_dir: ./models
+  seed: 42
+  checkpoint_freq: 10000
+  eval_freq: 10000
+  eval_episodes: 5

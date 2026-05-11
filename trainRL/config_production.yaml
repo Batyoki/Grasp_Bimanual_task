@@ -1,0 +1,46 @@
+# Large-scale training configuration - uses many parallel environments for better sample efficiency
+# Good for production training with high compute resources
+
+env:
+  name: BimanualVX300s
+  num_envs: 16
+  max_episode_length: 2000
+  device: cuda
+  render: false
+
+observation:
+  include_images: false
+  image_size: [128, 128]
+  normalize_obs: true
+
+action:
+  action_type: joint_position
+  action_scale: 1.0
+  use_relative_actions: true
+
+reward:
+  reach_weight: 1.5
+  action_penalty_weight: 0.01
+  gripper_penalty_weight: 0.001
+  success_bonus: 20.0
+  success_threshold: 0.03
+
+training:
+  algorithm: ppo
+  total_timesteps: 5000000  # 5M timesteps for thorough training
+  num_epochs: 10
+  batch_size: 512
+  learning_rate: 5e-4
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.001
+
+experiment:
+  name: bimanual_large_scale
+  log_dir: ./logs
+  model_dir: ./models
+  seed: 42
+  checkpoint_freq: 50000
+  eval_freq: 50000
+  eval_episodes: 10

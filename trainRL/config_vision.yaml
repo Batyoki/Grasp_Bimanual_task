@@ -1,0 +1,49 @@
+# Vision-based training configuration - includes camera observations for visual control
+# Slower training but enables vision-based policies
+
+env:
+  name: BimanualVX300s
+  num_envs: 4
+  max_episode_length: 1500
+  device: cuda
+  render: false
+
+observation:
+  include_images: true
+  image_size: [64, 64]
+  camera_names:
+    - cam_high
+    - cam_low
+  normalize_obs: true
+
+action:
+  action_type: joint_position
+  action_scale: 1.0
+  use_relative_actions: true
+
+reward:
+  reach_weight: 1.0
+  action_penalty_weight: 0.015
+  gripper_penalty_weight: 0.001
+  success_bonus: 15.0
+  success_threshold: 0.04
+
+training:
+  algorithm: ppo
+  total_timesteps: 2000000
+  num_epochs: 10
+  batch_size: 256
+  learning_rate: 3e-4
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.001
+
+experiment:
+  name: bimanual_vision
+  log_dir: ./logs
+  model_dir: ./models
+  seed: 42
+  checkpoint_freq: 20000
+  eval_freq: 20000
+  eval_episodes: 5
