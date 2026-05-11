@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="bimanual_vx300s">
+
+  <!-- Arguments -->
+  <xacro:arg name="left_ns" default="left"/>
+  <xacro:arg name="right_ns" default="right"/>
+
+  <!-- Include components -->
+  <xacro:include filename="$(find your_pkg)/urdf/table.xacro"/>
+  <xacro:include filename="$(find your_pkg)/urdf/cameras.xacro"/>
+  <xacro:include filename="$(find your_pkg)/urdf/arms.xacro"/>
+
+  <!-- WORLD -->
+  <link name="world"/>
+
+  <!-- TABLE -->
+  <xacro:table parent="world"/>
+
+  <!-- CAMERAS -->
+  <xacro:table_cameras parent="table_link"/>
+
+  <!-- ARMS -->
+  <xacro:vx300s_arm ns="$(arg left_ns)" parent="table_link"
+                    xyz="0.08 0.59 0.05" rpy="0 0 -1.57"/>
+
+  <xacro:vx300s_arm ns="$(arg right_ns)" parent="table_link"
+                    xyz="0.08 -0.59 0.05" rpy="0 0 1.57"/>
+
+</robot>

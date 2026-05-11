@@ -1,0 +1,14 @@
+port: /dev/ttyRX150
+write_eeprom_on_startup: true    # ADD THIS
+groups:
+  arm:
+    operating_mode: current
+    profile_type: time
+    profile_velocity: 2000
+    profile_acceleration: 300
+    torque_enable: false
+
+singles:
+  gripper:
+    operating_mode: pwm
+    torque_enable: false

@@ -1,0 +1,22 @@
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="vx300s_arm" params="ns parent xyz rpy">
+
+    <!-- Include Interbotix VX300s -->
+    <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/vx300s.urdf.xacro"/>
+
+    <xacro:interbotix_xsarm
+        robot_name="${ns}_vx300s"
+        base_link_frame="${ns}_base_link"
+        use_gripper="true"/>
+
+    <!-- Mount to table -->
+    <joint name="${ns}_mount_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${ns}_base_link"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>
